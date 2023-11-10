@@ -1,0 +1,53 @@
+/* @import './base.css'; */
+html {
+  overflow: hidden;
+  touch-action: none;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+}
+
+body {
+  overflow: hidden;
+  min-height: 100%;
+  color: white;
+  /* background: black; */
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+#app {
+  /* height: 100%;
+  background-color: aqua; */
+  max-width: 1280px;
+  margin: 0 0;
+  padding: 0 0;
+
+  font-weight: normal;
+
+  position: absolute;
+  top: 0
+}
+
+#threejs {
+  margin: 0;
+  padding: 0;
+}

@@ -24,7 +24,8 @@ export default defineConfig({
   },
   base: '/webxr/',
   build: {
-    assetsDir: 'assets'
-  }
+    assetsDir: 'assets',
+    // sourcemap: true
+  },
 
 })

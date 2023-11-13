@@ -1,23 +1,33 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import WebAR from './WebAR.vue'
-// import { SceneTransitioner, TestSceneMaker, AnotherSceneMaker } from './scene';
+import { onErrorCaptured, onMounted, reactive, ref } from 'vue';
+import { useWebAR, type WebARDelegate } from "./WebAR";
+import ChangeScene from './ChangeScene.vue';
+import useLogger from './logger';
+
+const log = useLogger();
+const overlay_dom = "overlay"
+
+onErrorCaptured((err, instance, info) => {
+  log.error(err, info);
+});
+
+class WebAREventHandler implements WebARDelegate {
+  onARButton(): void {
+    log.info("on arbutton")
+  }
+}
+
+const webar = useWebAR(); //WebARクラスの唯一のインスタンスを取得
+webar.delegate = new WebAREventHandler();
+
+//本モジュールが表示可能な状態になった直後に実行される
+onMounted(() => {
+  //webarの初期化
+  webar.start(overlay_dom);
+})
 
 
-// const scene_transitioner = new SceneTransitioner();
-// scene_transitioner.create("threejs");
-
-// function scene_a() {
-//   scene_transitioner.transitTo(new TestSceneMaker());
-// }
-
-// function scene_b() {
-//   scene_transitioner.transitTo(new AnotherSceneMaker());
-// }
-
-// const arexp = test_webxr();
-
-// scene_transitioner.test()
 </script>
 
 
@@ -25,42 +35,25 @@ import WebAR from './WebAR.vue'
   <main>
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
     <HelloWorld msg="You did it!" />
-    <WebAR id="webar"></WebAR>
-    <!-- <button @click="scene_a">Scene A</button>
-    <button @click="scene_b">Scene B</button> -->
+    <ChangeScene></ChangeScene>
   </main>
 </template>
 
 <style scoped>
 #webar {
-  display: flex;
-  align-items: end;
+  /* display: flex;
+  align-items: end; */
+  position: fixed;
+  bottom: 0;
 }
 
-header {
-  line-height: 1.5;
+main {
+  /* background-color: red; */
+  height: 100%;
 }
 
 .logo {
   display: block;
   margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
 }
 </style>

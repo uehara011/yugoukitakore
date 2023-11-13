@@ -1,6 +1,9 @@
 import * as THREE from "three";
 import { ARButton } from "three/examples/jsm/webxr/ARButton.js";
 import type { ARScene } from "./scene";
+import useLogger from './logger';
+
+const log = useLogger();
 
 export interface WebARDelegate {
     onRender?(renderer: THREE.Renderer): void;
@@ -8,15 +11,54 @@ export interface WebARDelegate {
     onARButton?(): void;
 }
 
+// log.info("webar.ts")
+
+export const useWebAR = (): WebAR => {
+    return WebAR.getSingleton();
+}
+
 export class WebAR {
-    // // scene = new THREE.Scene();
+    scene = new THREE.Scene();
     // // renderer?: THREE.WebGLRenderer;
-    baseNode = new THREE.Object3D();
+    cursorNode = new THREE.Object3D();
+    baseNode?: THREE.Object3D;
     delegate?: WebARDelegate;
 
     findPlane: boolean = true;
+    prevTime: DOMHighResTimeStamp = -1;
 
-    constructor() { }
+    arScene?: ARScene;
+
+    //シングルトンを作る（インスタンスがアプリケーション内で唯一であることを保証する）
+    private static instance: WebAR | null = null;
+    public static getSingleton(): WebAR {
+        if (!WebAR.instance) {
+            WebAR.instance = new WebAR();
+        }
+        return WebAR.instance;
+    }
+
+    private constructor() { }
+
+    placeScene(ar_scene: ARScene) {
+        const nodes = ar_scene.makeObjectTree();
+
+        if (this.baseNode) {
+            this.scene.remove(this.baseNode);
+        }
+        this.baseNode = new THREE.Object3D();
+        this.cursorNode.matrix.decompose(this.baseNode.position, this.baseNode.quaternion, this.baseNode.scale);
+        this.baseNode.add(nodes);
+        this.scene.add(this.baseNode!);
+
+        this.arScene = ar_scene;
+    }
+
+    changeScene(ar_scene: ARScene) {
+        this.baseNode?.clear();
+        this.baseNode?.add(ar_scene.makeObjectTree());
+        this.arScene = ar_scene;
+    }
 
     start(overlay_dom: string) {
 
@@ -28,7 +70,7 @@ export class WebAR {
         }
 
         /* Scene */
-        const scene = new THREE.Scene();
+        const scene = this.scene; //new THREE.Scene();
         scene.background = new THREE.Color(0x000000);
 
         /* Light */
@@ -66,6 +108,8 @@ export class WebAR {
         reticle.visible = false;
         scene.add(reticle);
 
+        this.cursorNode = reticle;
+
         // const geometry = new THREE.CylinderGeometry(0.1, 0.1, 0.2, 32).translate(
         //     0,
         //     0.1,
@@ -78,8 +122,6 @@ export class WebAR {
 
         // this.baseNode.add(new THREE.Mesh(geometry, material));
 
-        this.baseNode.matrixAutoUpdate = false;
-        scene.add(this.baseNode);
 
         /* Camera */
         const camera = new THREE.PerspectiveCamera( //ダミーカメラ。webxrが制御するため使われない
@@ -159,7 +201,7 @@ export class WebAR {
                             const pose_matrix = new THREE.Matrix4();
                             pose_matrix.fromArray(pose_matrix_array);
                             reticle.matrix = pose_matrix;
-                            this.baseNode.matrix = pose_matrix;
+                            // this.baseNode.matrix = pose_matrix;
 
                             this.delegate?.onPlaneFound?.(pose_matrix);
                         } else {
@@ -169,6 +211,13 @@ export class WebAR {
                 }
 
             }
+            let duration: DOMHighResTimeStamp = 1;
+            if (this.prevTime > 0) {
+                duration = timestamp - this.prevTime;
+            }
+            this.prevTime = timestamp;
+
+            this.arScene?.animate(Number(duration) / 1000);
 
             this.delegate?.onRender?.(renderer);
             renderer.render(scene, camera);

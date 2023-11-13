@@ -1,6 +1,34 @@
-# test
+# webar_demo
 
-This template should help get you started developing with Vue 3 in Vite.
+webarのデモ。iosデバイスは、[xrviewer](https://labs.mozilla.org/projects/webxr-viewer/)を利用する（safariでは実行できない)
+
+## build
+nodejsをインストールする
+必要なライブラリをインストールする。
+```sh
+cd webar_demo
+npm install
+```
+
+distディレクトリ以下のファイル群をサーバーにコピーするスクリプトを記述し(scp等を利用する)、
+deploy.sh　として保存する
+
+vite.config.tsの２５行目、baseプロパティをサーバで公開されるパスに合わせる
+
+```
+例)
+https://ie.u-ryukyu.ac.jp/~e99999/webar_demo/
+で公開される場合、
+
+base: /webar_demo/
+とする。
+```
+
+## デプロイ
+上記のdeploy.shが正しく作成されていれば、以下のコマンドでビルト&デプロイされる　
+```sh
+npm run deploy
+```
 
 ## Recommended IDE Setup
 

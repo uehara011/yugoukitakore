@@ -9,10 +9,15 @@ nodejsをインストールする
 ```sh
 cd webar_demo
 npm install
+npm build
 ```
 
 distディレクトリ以下のファイル群をサーバーにコピーするスクリプトを記述し(scp等を利用する)、
 deploy.sh　として保存する
+(例)
+```sh
+scp -P サーバーのsshポート番号 -r dist/* アカウント名@サーバーアドレス:~/public_html/webxr
+```
 
 vite.config.tsの２５行目、baseプロパティをサーバで公開されるパスに合わせる
 
@@ -21,8 +26,10 @@ vite.config.tsの２５行目、baseプロパティをサーバで公開され�
 https://ie.u-ryukyu.ac.jp/~e99999/webar_demo/
 で公開される場合、
 
-base: /webar_demo/
+base: /~e99999/webar_demo/
 とする。
+
+チルダを忘れないように。
 ```
 
 ## デプロイ

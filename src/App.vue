@@ -1,30 +1,32 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
 import { onErrorCaptured, onMounted, reactive, ref } from 'vue';
-import { useWebAR, type WebARDelegate } from "./WebAR";
+import { useAREngine, type AREngineDelegate } from "./AREngine";
 import ChangeScene from './ChangeScene.vue';
 import useLogger from './logger';
+import type { Matrix4 } from 'three';
+import type { ArMarkerControls } from '@ar-js-org/ar.js-threejs/types/ArMarkerControls';
 
 const log = useLogger();
-const overlay_dom = "overlay"
+const video_canvas = "threejs"
 
 onErrorCaptured((err, instance, info) => {
   log.error(err, info);
 });
 
-class WebAREventHandler implements WebARDelegate {
-  onARButton(): void {
-    log.info("on arbutton")
+class AREventHandler implements AREngineDelegate {
+  onMarkerFound(marker: ArMarkerControls): void {
+    //マーカーが見つかった時の処理
   }
 }
 
-const webar = useWebAR(); //WebARクラスの唯一のインスタンスを取得
-webar.delegate = new WebAREventHandler();
+const ar_engine = useAREngine(); //WebARクラスの唯一のインスタンスを取得
+ar_engine.delegate = new AREventHandler();
 
 //本モジュールが表示可能な状態になった直後に実行される
 onMounted(() => {
   //webarの初期化
-  webar.start(overlay_dom);
+  ar_engine.start(video_canvas);
 })
 
 
@@ -57,3 +59,4 @@ main {
   margin: 0 auto 2rem;
 }
 </style>
+./AREngine

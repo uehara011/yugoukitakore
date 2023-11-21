@@ -15,9 +15,9 @@ export class TestScene implements ARScene {
     name() { return "test"; }
     makeObjectTree(): THREE.Object3D {
         // log.info("make object tree", this.name())
-        const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1).translate(
+        const geometry = new THREE.BoxGeometry(1, 1, 1).translate(
             0,
-            0.05,
+            0.5,
             0
         );
 
@@ -46,7 +46,7 @@ export class TestScene2 implements ARScene {
 
     makeObjectTree(): THREE.Object3D {
         // 立方体のジオメトリを作成
-        const geometry = new THREE.ConeGeometry(0.1, 0.1).translate(0, 0.05, 0);
+        const geometry = new THREE.ConeGeometry(1, 1).translate(0, 0.5, 0);
 
         // 材質を作成（色を指定）
         const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });

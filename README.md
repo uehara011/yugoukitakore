@@ -1,6 +1,6 @@
 # webar_demo
 
-webarのデモ。iosデバイスは、[xrviewer](https://labs.mozilla.org/projects/webxr-viewer/)を利用する（safariでは実行できない)
+ar.js+three.jsのデモ。ios含む、safariで実行可能。
 
 ## build
 nodejsをインストールする
@@ -12,6 +12,38 @@ npm install
 npm build
 ```
 
+## devサーバーの準備
+### httpsでアクセスできるようにする
+webカメラを利用するアプリは、セキュリティ確保のため、httpsによる配信以外は起動しない。そこで、自己証明書によるhttpsサーバの設定を行う
+
+### 自己署名のSSL証明書を用意する
+openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+パスフレーズが求められるので
+0000
+と入力する（クオーテーションは入力しない）
+
+### viteの設定
+//vite.config.tsのserverプロパティを編集
+```
+  server: {
+    host: '0.0.0.0',
+    https: {
+      key: fs.readFileSync('key.pem'),
+      cert: fs.readFileSync('cert.pem'),
+      passphrase: '証明書作成時にあなたが入力したパスフレーズ',
+    },
+  },
+```
+## devサーバーを実行してテストする
+```sh
+npm run dev
+```
+アドレスが表示されるのでブラウザでアクセスする。
+セキュリティ警告がでるが無視して実行する。
+
+## deploy
+### 準備
 distディレクトリ以下のファイル群をサーバーにコピーするスクリプトを記述し(scp等を利用する)、
 deploy.sh　として保存する
 (例)
@@ -31,8 +63,7 @@ base: /~e99999/webar_demo/
 
 チルダを忘れないように。
 ```
-
-## デプロイ
+### デプロイ
 上記のdeploy.shが正しく作成されていれば、以下のコマンドでビルト&デプロイされる　
 ```sh
 npm run deploy

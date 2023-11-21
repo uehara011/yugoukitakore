@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { useWebAR } from './WebAR';
+import { useAREngine } from './AREngine';
 import { TestScene, TestScene2 } from './scene';
 
-const webar = useWebAR(); //シングルトンを取得
+const webar = useAREngine(); //シングルトンを取得
 
 const scene_a = () => {
-    webar.placeScene(new TestScene());
+    webar.replaceScene(new TestScene());
 }
 
 const scene_b = () => {
-    webar.changeScene(new TestScene2());
+    webar.replaceScene(new TestScene2());
 }
 
 </script>
 
 <template>
-    <button @click="scene_a">Place Scene</button>
-    <button @click="scene_b">Change Scene</button>
-</template>
+    <button @click="scene_a">Scene A</button>
+    <button @click="scene_b">Scene B</button>
+</template>./AREngine

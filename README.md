@@ -1,4 +1,4 @@
-# webar_demo
+# ar.js+three.js demo
 
 ar.js+three.jsのデモ。ios含む、safariで実行可能。
 

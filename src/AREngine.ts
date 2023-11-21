@@ -51,7 +51,6 @@ export class AREngine {
         this.arScene = ar_scene;
     }
 
-
     start(video_canvas: string) {
 
         const ar_base_element = document.getElementById(video_canvas)
@@ -109,6 +108,7 @@ export class AREngine {
         // set up ARToolKit
         ///
 
+        //AR.jsのマーカー検出エンジンの初期化
         const arToolkitSource = new THREEx.ArToolkitSource({
             // to read from the webcam
             sourceType: 'webcam',
@@ -117,13 +117,16 @@ export class AREngine {
             sourceHeight: window.innerWidth > window.innerHeight ? 480 * 2 : 640 * 2,
         })
 
+        //ARtoolkitのカメラ(webcamera)パラメータの読み込み
         const arToolkitContext = new THREEx.ArToolkitContext({
             cameraParametersUrl: THREEx.ArToolkitContext.baseURL + './data/camera_para.dat',
             detectionMode: 'mono',
         })
 
+        // ARToolkitの初期化が終了してから呼び出される
         const initARContext = () => { // create atToolkitContext
 
+            //ここは変更の必要なし
             // initialize it
             arToolkitContext.init(() => { // copy projection matrix to camera
                 camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
@@ -137,14 +140,18 @@ export class AREngine {
             // MARKER
             var arMarkerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
                 type: 'pattern',
+                // マーカーの内側のマークに対応するパターンファイル
                 patternUrl: THREEx.ArToolkitContext.baseURL + './data/hiro.armarker',
                 // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
                 // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
+                // カメラを制御する設定。マーカーの中心が、ワールドの原点になる。
                 changeMatrixMode: 'cameraTransformMatrix',
+                // マーカー識別の閾値。
                 minConfidence: 0.001,
                 // size: 1
             })
 
+            //マーカーが見つかった時に実行されるコールバック
             arMarkerControls.addEventListener("markerFound", () => {
                 console.log("marker found!");
 
@@ -155,9 +162,12 @@ export class AREngine {
             scene.visible = false
 
             console.log('ArMarkerControls', arMarkerControls);
+
+            //マーカー検出オブジェクトをグローバルに保存
             window.arMarkerControls = arMarkerControls;
         }
 
+        // ARtoolkitの初期化
         arToolkitSource.init(function onReady() {
 
             arToolkitSource.domElement.addEventListener('canplay', () => {
@@ -176,11 +186,11 @@ export class AREngine {
         }, function onError() { })
 
 
+        //ブラウザをリサイズした時の処理
         // handle resize
         window.addEventListener('resize', function () {
             onResize()
         })
-
         function onResize() {
             arToolkitSource.onResizeElement()
             arToolkitSource.copyElementSizeTo(renderer.domElement)
@@ -189,7 +199,7 @@ export class AREngine {
             }
         }
 
-
+        // スマホの向きを検出している？
         function getSourceOrientation(): string {
             if (!arToolkitSource) {
                 return '';
@@ -211,18 +221,21 @@ export class AREngine {
         }
 
 
-
+        // レンダリングループ。Three.jsのシーンが更新される度に実行
         const render = (delta_sec: number) => {
-            this.arScene?.animate(delta_sec);
-            this.delegate?.onRender?.(renderer);
-            renderer.render(scene, camera);
+            this.arScene?.animate(delta_sec); // 設定したシーンのアニメーションの実行
+            this.delegate?.onRender?.(renderer); //カスタムルーチンを実行
+            renderer.render(scene, camera); //Three.jsのシーンを描画
+
         }
 
+        // artoolkitの処理（フレームごとの処理）
         const update_ar = () => {
             if (!arToolkitContext || !arToolkitSource || !arToolkitSource.ready) {
                 return;
             }
 
+            //ここで、マーカーの検出が行われる（多分）
             arToolkitContext.update(arToolkitSource.domElement)
 
             // update scene.visible if the marker is seen

@@ -154,18 +154,29 @@ export class AREngine {
             //マーカーが見つかった時に実行されるコールバック
             arMarkerControls.addEventListener("markerFound", () => {
                 console.log("marker found!");
-
-                this.delegate?.onMarkerFound?.(arMarkerControls);
+                if(this.delegate){
+                    this.delegate?.onMarkerFound?.(arMarkerControls);
+                }
+                //マーカーが見つかったらシーンを表示
+                scene.visible = true;
             })
 
-
-            scene.visible = false
+            arMarkerControls.addEventListener("markerlost", () =>{
+                console.log("marker lost!");
+                //マーカーが消失したら非表示
+                scene.visible = true;
+                
+            });
 
             console.log('ArMarkerControls', arMarkerControls);
 
             //マーカー検出オブジェクトをグローバルに保存
             window.arMarkerControls = arMarkerControls;
         }
+
+        
+
+        
 
         // ARtoolkitの初期化
         arToolkitSource.init(function onReady() {

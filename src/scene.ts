@@ -15,14 +15,14 @@ export class TestScene implements ARScene {
     name() { return "test"; }
     makeObjectTree(): THREE.Object3D {
         // log.info("make object tree", this.name())
-        const geometry = new THREE.BoxGeometry(1, 1, 1).translate(
+        const geometry = new THREE.BoxGeometry(1, 5, 5).translate(
             0,
-            0.5,
+            0,
             0
         );
 
         const material = new THREE.MeshPhongMaterial({
-            color: 0xffffff * Math.random(),
+            color: 0xffffff,
         });
         const cube = new THREE.Mesh(geometry, material);
         this.cube = cube
@@ -34,7 +34,6 @@ export class TestScene implements ARScene {
 
         // 立方体を回転させるアニメーション
         //this.cube.rotation.x += 0.01;
-        this.cube.rotation.y += 1 * sec;
     }
 }
 
@@ -62,7 +61,7 @@ export class TestScene2 implements ARScene {
 
         // 立方体を回転させるアニメーション
         //this.cube.rotation.x += 0.01;
-        this.cube.rotation.y += 0.01;
+        
     }
 }
 

@@ -3,6 +3,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import { onErrorCaptured, onMounted, reactive, ref } from 'vue';
 import { useAREngine, type AREngineDelegate } from "./AREngine";
 import ChangeScene from './ChangeScene.vue';
+import {logoPosition,Attack_Position} from './ImgPosition';
 import useLogger from './logger';
 import type { Matrix4 } from 'three';
 import type { ArMarkerControls } from '@ar-js-org/ar.js-threejs/types/ArMarkerControls';
@@ -32,10 +33,13 @@ onMounted(() => {
 
 </script>
 
-
 <template>
   <main>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+    <img alt="Vue logo" 
+    src="./assets/logo.svg"
+    class="logo"
+        width="125" height="125" 
+    />
     <HelloWorld msg="You did it!" />
     <ChangeScene></ChangeScene>
   </main>

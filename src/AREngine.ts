@@ -141,7 +141,7 @@ export class AREngine {
             var arMarkerControls = new THREEx.ArMarkerControls(arToolkitContext, camera, {
                 type: 'pattern',
                 // マーカーの内側のマークに対応するパターンファイル
-                patternUrl: THREEx.ArToolkitContext.baseURL + './data/hiro.armarker',
+                patternUrl: THREEx.ArToolkitContext.baseURL + './data/pattern-marker.patt', //ここを変更したhiro->自作マーカー 2023/12/5
                 // patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
                 // as we controls the camera, set changeMatrixMode: 'cameraTransformMatrix'
                 // カメラを制御する設定。マーカーの中心が、ワールドの原点になる。

@@ -4,8 +4,8 @@ import { reactive } from 'vue';
 
 
 export const logoPosition = reactive({ top: 100, left: 200 });
-export const Attack_Position = reactive({top:550, left:1000});
-export const Range_Position = reactive({top:450, left:1200});
+export const Attack_Position = reactive({top:170, left:500});
+export const Range_Position = reactive({top:100, left:600});
 
 
 // 何らかのイベントや関数でlogoPositionを更新する例

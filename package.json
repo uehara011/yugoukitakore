@@ -15,7 +15,8 @@
     "axios": "^1.6.1",
     "three": "^0.158.0",
     "vue": "^3.3.4",
-    "vue-logger-plugin": "^2.2.3"
+    "vue-logger-plugin": "^2.2.3",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",

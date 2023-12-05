@@ -1,0 +1,22 @@
+/* MediaQueries.css */
+
+@media screen and (max-width: 450px) {
+    .container {
+      /* 768px以下の場合の配置 */
+      position:relative;
+      width: 100vw;
+      /* 例えば、position: relative;やwidth: 100vw;を変更 */
+    }
+  }
+  
+  @media screen and (min-width: 450px) and (max-width: 1024px) {
+    .container {
+      /* 769px〜1024pxの場合の配置 */
+      position: relative;
+      width: 50vw;
+      /* 例えば、position: relative;やwidth: 100vw;を変更 */
+    }
+  }
+  
+  /* 他のデバイスに合わせて必要なメディアクエリを追加 */
+  

@@ -16,12 +16,21 @@ const scene_b = () => {
 </script>
 
 <template>
-    <img src="./assets/logo.svg" 
+    <img src="./assets/launch.svg" 
     width="150" height="100" 
     :style="{position: 'absolute', top:Range_Position.top + 'px',left:Range_Position.left + 'px'}"
     @click="scene_a" />
-    <img src="./assets/Fish.jpeg" 
-    width="150" height="150"
+    <img src="./assets/launch.svg" 
+    width="100" height="100"
     :style="{position: 'absolute', top: Attack_Position.top + 'px',left: Attack_Position.left + 'px'}" 
     @click="scene_b" />
 </template>./AREngine
+
+
+<style scoped>
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+</style>

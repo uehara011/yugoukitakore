@@ -2,6 +2,7 @@ import type { ARScene } from "./scene";
 import useLogger from './logger';
 import * as THREE from "three";
 import { THREEx, ARjs } from "@ar-js-org/ar.js-threejs"
+import Cannon from 'cannon';
 import type { ArMarkerControls } from "@ar-js-org/ar.js-threejs/types/ArMarkerControls";
 
 THREEx.ArToolkitContext.baseURL = "./";
@@ -74,6 +75,10 @@ export class AREngine {
         /* Camera */
         const camera = new THREE.Camera();
         scene.add(camera);
+
+        // cannon.jsの世界を作成
+        const world = new Cannon.World();
+        world.gravity.set(0, -9.82, 0); // 重力
 
         /* Light */
         const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);

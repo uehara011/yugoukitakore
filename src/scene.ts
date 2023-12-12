@@ -38,26 +38,55 @@ export class TestScene implements ARScene {
 }
 
 
+
+export async function loadSvgTexture(svgURL: string): Promise<THREE.Texture> {
+    return new Promise((resolve, reject) => {
+      // SVGテクスチャの読み込み処理を実装する
+      // ここでは具体的なロジックを示していませんが、外部のライブラリや方法を使用してSVGをテクスチャとして読み込む処理を記述してください
+      // 例: Three.jsのTextureLoaderを使用する場合
+      const loader = new THREE.TextureLoader();
+      loader.load(
+        svgURL,
+        (texture) => {
+          resolve(texture);
+        },
+        undefined,
+        (error) => {
+          reject(error);
+        }
+      );
+    });
+  }
+  
+
+
 export class TestScene2 implements ARScene {
-    cube?: THREE.Object3D;
+    ball?: THREE.Mesh; // TestScene2で使用するボールのオブジェクト
 
     name() { return "test2"; }
 
-    makeObjectTree(): THREE.Object3D {
-        // 立方体のジオメトリを作成
-        const geometry = new THREE.ConeGeometry(1, 1).translate(0, 0.5, 0);
-
-        // 材質を作成（色を指定）
-        const material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-
-        // 立方体のメッシュを作成
-        this.cube = new THREE.Mesh(geometry, material);
-
-        return this.cube;
+    constructor() {
+        this.initBall(); // ボールの初期化
     }
 
+    async initBall() {
+        const svgURL = './assets/logo.svg'; // SVGファイルのパスを指定してください
+        const ballRadius = 0.5;
+        const ballGeometry = new THREE.SphereGeometry(ballRadius, 32, 32);
+        const texture = await loadSvgTexture(svgURL); // createBall.tsのloadSvgTextureと同様の処理を行う（詳細は省略）
+
+        const material = new THREE.MeshBasicMaterial({ map: texture });
+        this.ball = new THREE.Mesh(ballGeometry, material); // ボールを直接生成し、TestScene2のボールに代入
+    }
+
+    makeObjectTree(): THREE.Object3D {
+        if (!this.ball) throw new Error('Ball not initialized');
+        return this.ball;
+    }
+
+
     animate(sec: number): void {
-        if (!this.cube) return;
+        if (!this.ball) return;
 
         // 立方体を回転させるアニメーション
         //this.cube.rotation.x += 0.01;

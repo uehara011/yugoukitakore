@@ -6,6 +6,8 @@ import ChangeScene from './ChangeScene.vue';
 import {logoPosition,Attack_Position} from './ImgPosition';
 import useLogger from './logger';
 import type { Matrix4 } from 'three';
+import Cannon from 'cannon';
+import { launchBall } from './LaunchTest';
 import type { ArMarkerControls } from '@ar-js-org/ar.js-threejs/types/ArMarkerControls';
 
 const log = useLogger();

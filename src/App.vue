@@ -7,7 +7,7 @@ import {logoPosition,Attack_Position} from './ImgPosition';
 import useLogger from './logger';
 import type { Matrix4 } from 'three';
 import Cannon from 'cannon';
-import { launchBall } from './LaunchTest';
+// import { launchBall } from './LaunchTest';
 import type { ArMarkerControls } from '@ar-js-org/ar.js-threejs/types/ArMarkerControls';
 
 const log = useLogger();
@@ -37,12 +37,6 @@ onMounted(() => {
 
 <template>
   <main>
-    <img alt="Vue logo" 
-    src="./assets/logo.svg"
-    class="logo"
-        width="125" height="125" 
-    />
-    <HelloWorld msg="You did it!" />
     <ChangeScene></ChangeScene>
   </main>
 </template>

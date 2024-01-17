@@ -5,19 +5,15 @@ import {Range_Position,Attack_Position} from './ImgPosition';
 import {ref} from 'vue';
 
 const ar_engine = useAREngine(); //シングルトンを取得
-let currentScene = ref<TestScene | TestScene2 |null>(null); // ref()を使ってCurrentSceneを初期化
 
 const scene_a = () => {
     const newScene = new TestScene();
-    ar_engine.replaceScene(newScene); // scene_a で新しいシーンを設定
-    currentScene.value = newScene; // 現在のシーンを更新
+    ar_engine.replaceScene(newScene);
 }
 
 const scene_b = () => {
     const newScene = new TestScene2();
-    if (currentScene) {
-        currentScene.value = newScene; // scene_b を scene_a の上に重ねる
-    }
+    ar_engine.replaceScene(newScene);
 }
 
 const scene_c = () => {moveObject();}

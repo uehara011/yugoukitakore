@@ -1,5 +1,3 @@
-
-
 interface GameScene {
     init(): void
     update(duration: number): void

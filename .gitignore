@@ -30,4 +30,4 @@ coverage
 deploy.sh
 cert.pem
 key.pem
-*.txt
+Update_history.txt

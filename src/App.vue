@@ -7,6 +7,7 @@ import {logoPosition,Attack_Position} from './ImgPosition';
 import useLogger from './logger';
 import type { Matrix4 } from 'three';
 import Cannon from 'cannon';
+import screenUI from "./screenUI.vue"
 // import { launchBall } from './LaunchTest';
 import type { ArMarkerControls } from '@ar-js-org/ar.js-threejs/types/ArMarkerControls';
 
@@ -37,10 +38,11 @@ onMounted(() => {
 
 <template>
   <main>
+    <screenUI></screenUI>
     <ChangeScene></ChangeScene>
   </main>
 </template>
-
+<!--
 <style scoped>
 #webar {
   /* display: flex;
@@ -60,3 +62,4 @@ main {
 }
 </style>
 ./AREngine
+-->

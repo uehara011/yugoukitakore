@@ -1,10 +1,12 @@
 import type { ARScene } from "./scene";
 import useLogger from './logger';
 import * as THREE from "three";
-import { THREEx, ARjs } from "@ar-js-org/ar.js-threejs"
+import { THREEx } from "@ar-js-org/ar.js-threejs"
 import Cannon from 'cannon';
 import type { ArMarkerControls } from "@ar-js-org/ar.js-threejs/types/ArMarkerControls";
-
+//import { moveObject } from "./tank/Move";
+import { createTank, Tank } from "./tank/createTank"
+import { create_enemy_Tank, enemyTank } from "./tank/enemy_Tank"
 THREEx.ArToolkitContext.baseURL = "./";
 
 const log = useLogger();
@@ -41,7 +43,6 @@ export class AREngine {
 
     replaceScene(ar_scene: ARScene) {
         const nodes = ar_scene.makeObjectTree();
-
         if (this.baseNode) {
             this.scene.remove(this.baseNode);
         }
@@ -63,14 +64,19 @@ export class AREngine {
 
         /* RENDERER */
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        // renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        // renderer.xr.enabled = true;
         ar_base_element.appendChild(renderer.domElement);
-
+        
         /* Scene */
         const scene = this.scene; //new THREE.Scene();
         // scene.background = new THREE.Color(0x000000);
+
+        //Tank表示
+        createTank();
+        scene.add(Tank);
+        create_enemy_Tank();
+        scene.add(enemyTank);
+        //moveObject();
 
         /* Camera */
         const camera = new THREE.Camera();
@@ -106,7 +112,7 @@ export class AREngine {
         // var torusMesh = new THREE.Mesh(torusKnotGeometry, material);
         // torusMesh.position.y = 0.5
         // scene.add(torusMesh);
-        make_coordinate_arrows(scene, 1);
+        //make_coordinate_arrows(scene, 1);
 
 
         ////
@@ -277,7 +283,7 @@ export class AREngine {
         requestAnimationFrame(animate);
     }
 };
-
+/*
 function make_coordinate_arrows(node: THREE.Object3D, len: number) {
     // X軸の矢印（赤色）
     const arrowX = new THREE.ArrowHelper(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 0, 0), len, 0xff0000);
@@ -291,3 +297,4 @@ function make_coordinate_arrows(node: THREE.Object3D, len: number) {
     const arrowZ = new THREE.ArrowHelper(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, 0), len, 0x0000ff);
     node.add(arrowZ);
 }
+*/

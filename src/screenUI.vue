@@ -4,6 +4,7 @@ import { useAREngine } from './AREngine';
 import { reactive, ref, watchEffect } from 'vue';
 import { Tank } from "./tank/createTank"; 
 import  { Move }  from './tank/Move';
+import Heart from "./Heart.vue";
 
 const moveInstance =  new Move();
 const Attack_Position = reactive({top:170, left:500});
@@ -69,6 +70,7 @@ watchEffect(() => {
       <div class="arrow-left" @click="moveLeft"></div>
       <div class="arrow-right" @click="moveRight"></div>
     </div>
+    <Heart></Heart>
   
 </template>
 <style>

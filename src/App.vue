@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import { onErrorCaptured, onMounted, reactive, ref } from 'vue';
+import { onErrorCaptured, onMounted, reactive, ref, } from 'vue';
 import { useAREngine, type AREngineDelegate } from "./AREngine";
 import ChangeScene from './ChangeScene.vue';
 import {logoPosition,Attack_Position} from './ImgPosition';
@@ -8,6 +8,7 @@ import useLogger from './logger';
 import type { Matrix4 } from 'three';
 import Cannon from 'cannon';
 import screenUI from "./screenUI.vue"
+import Heart from "./Heart.vue"
 // import { launchBall } from './LaunchTest';
 import type { ArMarkerControls } from '@ar-js-org/ar.js-threejs/types/ArMarkerControls';
 
@@ -38,11 +39,11 @@ onMounted(() => {
 
 <template>
   <main>
-    <screenUI></screenUI>
     <ChangeScene></ChangeScene>
+    <screenUI></screenUI>
   </main>
 </template>
-<!--
+
 <style scoped>
 #webar {
   /* display: flex;
@@ -52,7 +53,7 @@ onMounted(() => {
 }
 
 main {
-  /* background-color: red; */
+   /*background-color: red; */
   height: 100%;
 }
 
@@ -62,4 +63,3 @@ main {
 }
 </style>
 ./AREngine
--->
